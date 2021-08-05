@@ -45,7 +45,7 @@ class Bowling
    index < 10
  end
 
- #スペアボーナスを含んだ値でスコアを計算する
+ #スペアボーナスを含んだ値でスコアを計算するa
  def calc_spare_bonus(index)
    10 + @scores[index].first
  end
