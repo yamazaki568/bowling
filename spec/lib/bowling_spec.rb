@@ -72,6 +72,80 @@ describe "ボリングのスコア計算" do
         expect(@game.total_score).to eq 28
       end
     end
+    context "ストライクをとった場合"do
+       it"ストライクボーナスが加算されない事" do
+         #第一フレームでストライク
+         @game.add_score(10)
+         #第二フレームので４四点
+         @game.add_score(5)
+         @game.add_score(4)
+         #以降は全てガタ-
+         add_many_scores(16,0)
+         #合計を計算
+         @game.calc_score
+         #期待する合計値※()内はボーナス
+         #10+5+(5)+4+(4)=28
+         expect(@game.total_score).to eq 28
+       end
+    end
+    context "ダブルを取った場合" do
+       it"それぞれのストライクボーナスが加算されること"do
+         #第一フレームでストライク
+         @game.add_score(10)
+         ##第二フレームもストライク
+         @game.add_score(10)
+         #第二フレームので54
+         @game.add_score(5)
+         @game.add_score(4)
+         #以降は全てガタ-
+         add_many_scores(16,0)
+         #合計を計算
+         @game.calc_score
+         #期待する合計値※()内はボーナス
+         #10+10+10+5+5+5+4+4=53
+         expect(@game.total_score).to eq 53
+       end
+    end
+
+    context "ターキーを取った場合" do
+       it"それぞれのストライクボーナスが加算されること"do
+         #第一フレームでストライク
+         @game.add_score(10)
+         ##第二フレームもストライク
+         @game.add_score(10)
+         ##第二フレームもストライく
+         @game.add_score(10)
+
+         #第二フレームので54
+         @game.add_score(5)
+         @game.add_score(4)
+         #以降は全てガタ-
+         add_many_scores(12,0)
+         #合計を計算
+         @game.calc_score
+         #期待する合計値※()内はボーナス
+         #10+10+10+5+5+5+4+4=53
+         expect(@game.total_score).to eq 83
+       end
+    end
+
+    context "最終フレームでストライクを取った場合" do
+      it "ストライクボーナスが加算されないこと" do
+         #第一フレームでストライク
+         @game.add_score(10)
+         #第二フレームので４四点
+         @game.add_score(5)
+         @game.add_score(4)
+         #以降はガタ-
+         add_many_scores(14,0)
+         #最終フレームでストライク
+         @game.add_score(10)
+         #合計を計算
+         @game.calc_score
+         #予想値：３８
+         expect(@game.total_score).to eq 38
+      end
+    end
   end
 end
 private
