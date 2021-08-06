@@ -7,6 +7,8 @@ class Bowling
     @scores=[]
     #一時保存用の配列
     @temp=[]
+    #フレームごとの合計を格納する配列
+    @frame_score = []
   end
 
   #スコアの合計を返す
@@ -25,6 +27,10 @@ class Bowling
     end
   end
 
+  def frame_score(frame)
+    @frame_score[frame-1]
+  end
+
   #スコアの合計を計算
   def calc_score
     @scores.each.with_index(1) do |score,index|
@@ -37,6 +43,8 @@ class Bowling
       else
         @total_score += score.inject(:+)
       end
+      #合計をフレームごとに記録しておく
+      @frame_score << @total_score
     end
   end
 
